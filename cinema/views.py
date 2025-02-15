@@ -20,11 +20,13 @@ from cinema.serializers import (
     OrderSerializer,
     OrderListSerializer,
 )
+from cinema.permissions import IsAdminOrIfAuthenticatedReadOnly
 
 
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_permissions(self):
         if self.action == "create":
@@ -53,6 +55,7 @@ class GenreViewSet(viewsets.ModelViewSet):
 class ActorViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+    permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_permissions(self):
         if self.action == "create":
@@ -81,6 +84,7 @@ class ActorViewSet(viewsets.ModelViewSet):
 class CinemaHallViewSet(viewsets.ModelViewSet):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+    permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_permissions(self):
         if self.action == "create":
@@ -109,6 +113,7 @@ class CinemaHallViewSet(viewsets.ModelViewSet):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.prefetch_related("genres", "actors")
     serializer_class = MovieSerializer
+    permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_permissions(self):
         if self.action == "create":
@@ -165,6 +170,7 @@ class MovieSessionViewSet(viewsets.ModelViewSet):
         )
     )
     serializer_class = MovieSessionSerializer
+    permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_permissions(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
